@@ -2,7 +2,7 @@ package shell_operator
 
 import (
 	"github.com/flant/shell-operator/pkg/app"
-	"github.com/flant/shell-operator/pkg/kube"
+	"github.com/flant/kube-client/client"
 )
 
 var DefaultMainKubeClientMetricLabels = map[string]string{"component": "main"}

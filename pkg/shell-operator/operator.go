@@ -25,7 +25,7 @@ import (
 	"github.com/flant/shell-operator/pkg/debug"
 	"github.com/flant/shell-operator/pkg/hook"
 	"github.com/flant/shell-operator/pkg/hook/controller"
-	"github.com/flant/shell-operator/pkg/kube"
+	"github.com/flant/kube-client/client"
 	"github.com/flant/shell-operator/pkg/kube_events_manager"
 	"github.com/flant/shell-operator/pkg/metric_storage"
 	"github.com/flant/shell-operator/pkg/schedule_manager"
@@ -51,7 +51,7 @@ type ShellOperator struct {
 	MetricStorage *metric_storage.MetricStorage
 	// separate metric storage for hook metrics if separate listen port is configured
 	HookMetricStorage *metric_storage.MetricStorage
-	KubeClient        kube.KubernetesClient
+	KubeClient        client.Client
 	ObjectPatcher     *object_patch.ObjectPatcher
 
 	// Labels for kube clients
@@ -96,7 +96,7 @@ func (op *ShellOperator) Stop() {
 	}
 }
 
-func (op *ShellOperator) WithKubernetesClient(klient kube.KubernetesClient) {
+func (op *ShellOperator) WithKubernetesClient(klient client.Client) {
 	op.KubeClient = klient
 }
 

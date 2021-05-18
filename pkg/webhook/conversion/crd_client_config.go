@@ -7,12 +7,12 @@ import (
 	extv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/flant/shell-operator/pkg/kube"
+	"github.com/flant/kube-client/client"
 )
 
 // A clientConfig for a particular CRD.
 type CrdClientConfig struct {
-	KubeClient  kube.KubernetesClient
+	KubeClient  client.Client
 	CrdName     string
 	Namespace   string
 	ServiceName string
