@@ -19,17 +19,17 @@ import (
 	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/client-go/util/retry"
 
-	"github.com/flant/kube-client/client"
+	klient "github.com/flant/kube-client/client"
 	"github.com/flant/shell-operator/pkg/app"
 	"github.com/flant/shell-operator/pkg/jq"
 )
 
 type ObjectPatcher struct {
-	kubeClient client.Client
+	kubeClient klient.Client
 	logger     *log.Entry
 }
 
-func NewObjectPatcher(kubeClient client.Client) *ObjectPatcher {
+func NewObjectPatcher(kubeClient klient.Client) *ObjectPatcher {
 	return &ObjectPatcher{
 		kubeClient: kubeClient,
 		logger:     log.WithField("operator.component", "KubernetesObjectPatcher"),

@@ -6,7 +6,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/flant/kube-client/client"
+	klient "github.com/flant/kube-client/client"
 	. "github.com/flant/shell-operator/pkg/kube_events_manager/types"
 	"github.com/flant/shell-operator/pkg/metric_storage"
 )
@@ -14,7 +14,7 @@ import (
 type KubeEventsManager interface {
 	WithContext(ctx context.Context)
 	WithMetricStorage(mstor *metric_storage.MetricStorage)
-	WithKubeClient(client client.Client)
+	WithKubeClient(client klient.Client)
 
 	AddMonitor(monitorConfig *MonitorConfig) error
 	HasMonitor(monitorID string) bool
@@ -33,7 +33,7 @@ type kubeEventsManager struct {
 	// channel to emit KubeEvent objects
 	KubeEventCh chan KubeEvent
 
-	KubeClient client.Client
+	KubeClient klient.Client
 
 	ctx           context.Context
 	cancel        context.CancelFunc
@@ -60,7 +60,7 @@ func (mgr *kubeEventsManager) WithMetricStorage(mstor *metric_storage.MetricStor
 	mgr.metricStorage = mstor
 }
 
-func (mgr *kubeEventsManager) WithKubeClient(client client.Client) {
+func (mgr *kubeEventsManager) WithKubeClient(client klient.Client) {
 	mgr.KubeClient = client
 }
 

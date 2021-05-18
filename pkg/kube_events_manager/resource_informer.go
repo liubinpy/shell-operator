@@ -14,7 +14,7 @@ import (
 	"k8s.io/client-go/dynamic/dynamicinformer"
 	"k8s.io/client-go/tools/cache"
 
-	"github.com/flant/kube-client/client"
+	klient "github.com/flant/kube-client/client"
 	. "github.com/flant/shell-operator/pkg/kube_events_manager/types"
 	"github.com/flant/shell-operator/pkg/metric_storage"
 	"github.com/flant/shell-operator/pkg/utils/measure"
@@ -23,7 +23,7 @@ import (
 // ResourceInformer is a kube informer for particular onKubernetesEvent
 type ResourceInformer interface {
 	WithContext(ctx context.Context)
-	WithKubeClient(client client.Client)
+	WithKubeClient(client klient.Client)
 	WithMetricStorage(mstor *metric_storage.MetricStorage)
 	WithNamespace(string)
 	WithName(string)
@@ -38,7 +38,7 @@ type ResourceInformer interface {
 }
 
 type resourceInformer struct {
-	KubeClient client.Client
+	KubeClient klient.Client
 	Monitor    *MonitorConfig
 	// Filter by namespace
 	Namespace string
@@ -90,7 +90,7 @@ func (ei *resourceInformer) WithContext(ctx context.Context) {
 	ei.ctx, ei.cancel = context.WithCancel(ctx)
 }
 
-func (ei *resourceInformer) WithKubeClient(client client.Client) {
+func (ei *resourceInformer) WithKubeClient(client klient.Client) {
 	ei.KubeClient = client
 }
 

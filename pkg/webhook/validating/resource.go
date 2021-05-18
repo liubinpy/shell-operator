@@ -7,11 +7,11 @@ import (
 	v1 "k8s.io/api/admissionregistration/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/flant/kube-client/client"
+	klient "github.com/flant/kube-client/client"
 )
 
 type WebhookResource struct {
-	KubeClient        client.Client
+	KubeClient        klient.Client
 	Webhooks          map[string]*ValidatingWebhookConfig
 	Namespace         string
 	ConfigurationName string
