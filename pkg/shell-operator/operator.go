@@ -21,11 +21,11 @@ import (
 	structured_logger "github.com/flant/shell-operator/pkg/utils/structured-logger"
 	. "github.com/flant/shell-operator/pkg/webhook/validating/types"
 
+	klient "github.com/flant/kube-client/client"
 	"github.com/flant/shell-operator/pkg/app"
 	"github.com/flant/shell-operator/pkg/debug"
 	"github.com/flant/shell-operator/pkg/hook"
 	"github.com/flant/shell-operator/pkg/hook/controller"
-		klient "github.com/flant/kube-client/client"
 	"github.com/flant/shell-operator/pkg/kube_events_manager"
 	"github.com/flant/shell-operator/pkg/metric_storage"
 	"github.com/flant/shell-operator/pkg/schedule_manager"
@@ -180,6 +180,7 @@ func (op *ShellOperator) Init() (err error) {
 	}
 
 	if op.KubeClient == nil {
+		//nolint:staticcheck
 		klient.RegisterMetrics(op.MetricStorage, op.GetMainKubeClientMetricLabels())
 		op.KubeClient, err = op.InitMainKubeClient()
 		if err != nil {
@@ -480,7 +481,7 @@ func (op *ShellOperator) ConversionEventHandler(event conversion.Event) (*conver
 
 			// Stop iterating if hook has converted all objects to a desiredAPIVersions.
 			newSourceVersions := conversion.ExtractAPIVersions(event.Objects)
-			//logEntry.Infof("Hook return conversion response: failMsg=%s, %d convertedObjects, versions:%v, desired: %s", response.FailedMessage, len(response.ConvertedObjects), newSourceVersions, event.Review.Request.DesiredAPIVersion)
+			// logEntry.Infof("Hook return conversion response: failMsg=%s, %d convertedObjects, versions:%v, desired: %s", response.FailedMessage, len(response.ConvertedObjects), newSourceVersions, event.Review.Request.DesiredAPIVersion)
 
 			if len(newSourceVersions) == 1 && newSourceVersions[0] == event.Review.Request.DesiredAPIVersion {
 				// success

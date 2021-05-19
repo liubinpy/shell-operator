@@ -14,14 +14,14 @@ import (
 	"k8s.io/apimachinery/pkg/version"
 	fakediscovery "k8s.io/client-go/discovery/fake"
 
-		klient "github.com/flant/kube-client/client"
+	klient "github.com/flant/kube-client/client"
 	. "github.com/flant/shell-operator/pkg/kube_events_manager/types"
 )
 
 func Test_MainKubeEventsManager_Run(t *testing.T) {
 	// Init() replacement
 
-	kubeClient := kube.NewFakeKubernetesClient()
+	kubeClient := klient.New()
 
 	fakeDiscovery, ok := kubeClient.Discovery().(*fakediscovery.FakeDiscovery)
 	if !ok {
@@ -91,7 +91,7 @@ func Test_MainKubeEventsManager_HandleEvents(t *testing.T) {
 	defer cancel()
 
 	// Add GVR
-	kubeClient := kube.NewFakeKubernetesClient()
+	kubeClient := klient.NewFake()
 	fakeDiscovery, ok := kubeClient.Discovery().(*fakediscovery.FakeDiscovery)
 	if !ok {
 		t.Fatalf("couldn't convert Discovery() to *FakeDiscovery")
@@ -246,7 +246,7 @@ func Test_FakeClient_CatchUpdates(t *testing.T) {
 	defer cancel()
 
 	// Add GVR
-	kubeClient := kube.NewFakeKubernetesClient()
+	kubeClient := klient.NewFake()
 	fakeDiscovery, ok := kubeClient.Discovery().(*fakediscovery.FakeDiscovery)
 	if !ok {
 		t.Fatalf("couldn't convert Discovery() to *FakeDiscovery")

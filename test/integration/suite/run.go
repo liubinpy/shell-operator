@@ -9,10 +9,10 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
+	klient "github.com/flant/kube-client/client"
 	"github.com/flant/shell-operator/pkg/kube/object_patch"
-	. "github.com/flant/shell-operator/test/utils"
 
-		klient "github.com/flant/kube-client/client"
+	. "github.com/flant/shell-operator/test/utils"
 )
 
 var (
@@ -36,7 +36,7 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 }, func([]byte) {
 	// Initialize kube client out-of-cluster
 	ContextName = KindGetKubeContext(ClusterName)
-	KubeClient = kube.NewKubernetesClient()
+	KubeClient = klient.New()
 	KubeClient.WithContextName(ContextName)
 	err := KubeClient.Init()
 	Expect(err).ShouldNot(HaveOccurred())
