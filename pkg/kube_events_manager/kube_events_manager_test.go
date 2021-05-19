@@ -21,7 +21,7 @@ import (
 func Test_MainKubeEventsManager_Run(t *testing.T) {
 	// Init() replacement
 
-	kubeClient := klient.New()
+	kubeClient := klient.NewFake()
 
 	fakeDiscovery, ok := kubeClient.Discovery().(*fakediscovery.FakeDiscovery)
 	if !ok {
