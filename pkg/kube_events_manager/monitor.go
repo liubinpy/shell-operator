@@ -7,7 +7,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	klient "github.com/flant/kube-client/client"
+		klient "github.com/flant/kube-client/client"
 	. "github.com/flant/shell-operator/pkg/kube_events_manager/types"
 	"github.com/flant/shell-operator/pkg/metric_storage"
 	utils "github.com/flant/shell-operator/pkg/utils/labels"

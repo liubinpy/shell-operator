@@ -14,7 +14,7 @@ import (
 	"k8s.io/client-go/dynamic/dynamicinformer"
 	"k8s.io/client-go/tools/cache"
 
-	klient "github.com/flant/kube-client/client"
+		klient "github.com/flant/kube-client/client"
 	. "github.com/flant/shell-operator/pkg/kube_events_manager/types"
 	"github.com/flant/shell-operator/pkg/metric_storage"
 	"github.com/flant/shell-operator/pkg/utils/measure"
@@ -214,7 +214,7 @@ func (ei *resourceInformer) LoadExistedObjects() error {
 	objList, err := ei.KubeClient.Dynamic().
 		Resource(ei.GroupVersionResource).
 		Namespace(ei.Namespace).
-		List(ei.ListOptions)
+		List(context.TODO(), ei.ListOptions)
 	if err != nil {
 		log.Errorf("%s: initial list resources of kind '%s': %v", ei.Monitor.Metadata.DebugName, ei.Monitor.Kind, err)
 		return err

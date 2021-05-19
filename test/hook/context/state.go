@@ -4,21 +4,23 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/flant/kube-client/fake"
-	"github.com/flant/kube-client/manifest"
+	"github.com/flant/shell-operator/pkg/kube/fake"
+	"github.com/flant/shell-operator/pkg/utils/manifest"
 )
 
-var defaultNamespace = "default"
+// if we use default, then we are not able to emulate global resources due to fake cluster limitations
+// that's why empty namespace, specify default by your own if needed
+var defaultNamespace = ""
 
 // StateController holds objects state for FakeCluster
 type StateController struct {
 	CurrentState map[string]manifest.Manifest
 
-	fakeCluster *fake.Cluster
+	fakeCluster *fake.FakeCluster
 }
 
 // NewStateController creates controller to apply state changes
-func NewStateController(fc *fake.Cluster) *StateController {
+func NewStateController(fc *fake.FakeCluster) *StateController {
 	return &StateController{
 		CurrentState: make(map[string]manifest.Manifest),
 		fakeCluster:  fc,
@@ -26,7 +28,7 @@ func NewStateController(fc *fake.Cluster) *StateController {
 }
 
 func (c *StateController) SetInitialState(initialState string) error {
-	manifests, err := manifest.ListFromYamlDocs(initialState)
+	manifests, err := manifest.GetManifestListFromYamlDocuments(initialState)
 	if err != nil {
 		return fmt.Errorf("create initial state: %v", err)
 	}
@@ -34,7 +36,7 @@ func (c *StateController) SetInitialState(initialState string) error {
 	newState := make(map[string]manifest.Manifest)
 
 	for _, m := range manifests {
-		err = c.fakeCluster.Create(defaultNamespace, m)
+		err = c.fakeCluster.Create(m.Namespace(defaultNamespace), m)
 		if err != nil {
 			return fmt.Errorf("create initial state: %v", err)
 		}
@@ -48,7 +50,7 @@ func (c *StateController) SetInitialState(initialState string) error {
 
 // ChangeState apply changes to current objects state
 func (c *StateController) ChangeState(newRawState string) (int, error) {
-	newManifests, err := manifest.ListFromYamlDocs(newRawState)
+	newManifests, err := manifest.GetManifestListFromYamlDocuments(newRawState)
 	if err != nil {
 		return 0, fmt.Errorf("error while changing state: %v", err)
 	}
@@ -64,8 +66,8 @@ func (c *StateController) ChangeState(newRawState string) (int, error) {
 		currM, ok := c.CurrentState[m.Id()]
 		if !ok {
 			// Create object if not exist
-			err = c.fakeCluster.Create(defaultNamespace, m)
-			// err := createObject(newStateObject, newUnstructuredObject)
+			err = c.fakeCluster.Create(m.Namespace(defaultNamespace), m)
+			//err := createObject(newStateObject, newUnstructuredObject)
 			if err != nil {
 				return generatedEvents, err
 			}
@@ -74,7 +76,7 @@ func (c *StateController) ChangeState(newRawState string) (int, error) {
 		} else {
 			// Update object if changed
 			if !reflect.DeepEqual(currM, m) {
-				err := c.fakeCluster.Update(defaultNamespace, m)
+				err := c.fakeCluster.Update(m.Namespace(defaultNamespace), m)
 				if err != nil {
 					return generatedEvents, err
 				}
@@ -87,7 +89,7 @@ func (c *StateController) ChangeState(newRawState string) (int, error) {
 	for currId, currM := range c.CurrentState {
 		if _, ok := newState[currId]; !ok {
 			// Delete object
-			err := c.fakeCluster.Delete(defaultNamespace, currM)
+			err := c.fakeCluster.Delete(currM.Namespace(defaultNamespace), currM)
 			if err != nil {
 				return generatedEvents, err
 			}

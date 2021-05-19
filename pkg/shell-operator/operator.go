@@ -21,11 +21,11 @@ import (
 	structured_logger "github.com/flant/shell-operator/pkg/utils/structured-logger"
 	. "github.com/flant/shell-operator/pkg/webhook/validating/types"
 
-	klient "github.com/flant/kube-client/client"
 	"github.com/flant/shell-operator/pkg/app"
 	"github.com/flant/shell-operator/pkg/debug"
 	"github.com/flant/shell-operator/pkg/hook"
 	"github.com/flant/shell-operator/pkg/hook/controller"
+		klient "github.com/flant/kube-client/client"
 	"github.com/flant/shell-operator/pkg/kube_events_manager"
 	"github.com/flant/shell-operator/pkg/metric_storage"
 	"github.com/flant/shell-operator/pkg/schedule_manager"

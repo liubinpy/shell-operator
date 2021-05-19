@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/flant/kube-client/fake"
 	"github.com/flant/shell-operator/pkg/hook"
 	. "github.com/flant/shell-operator/pkg/hook/binding_context"
 	"github.com/flant/shell-operator/pkg/hook/controller"
 	"github.com/flant/shell-operator/pkg/hook/types"
+	"github.com/flant/shell-operator/pkg/kube/fake"
 	kubeeventsmanager "github.com/flant/shell-operator/pkg/kube_events_manager"
 	schedulemanager "github.com/flant/shell-operator/pkg/schedule_manager"
 )
@@ -31,7 +31,7 @@ type BindingContextController struct {
 
 	UpdateTimeout time.Duration
 
-	fakeCluster *fake.Cluster
+	fakeCluster *fake.FakeCluster
 }
 
 func NewBindingContextController(config string, version ...fake.ClusterVersion) (*BindingContextController, error) {
@@ -57,7 +57,7 @@ func (b *BindingContextController) WithHook(h *hook.Hook) {
 }
 
 // WithFakeCluster add some external cluster to current controllers
-func (b *BindingContextController) WithFakeCluster(c *fake.Cluster) {
+func (b *BindingContextController) WithFakeCluster(c *fake.FakeCluster) {
 	b.fakeCluster = c
 	b.Controller.fakeCluster = c
 }
@@ -73,7 +73,7 @@ func (b *BindingContextController) Run(initialState string) (GeneratedBindingCon
 
 	b.KubeEventsManager = kubeeventsmanager.NewKubeEventsManager()
 	b.KubeEventsManager.WithContext(ctx)
-	b.KubeEventsManager.WithKubeClient(b.fakeCluster.Client)
+	b.KubeEventsManager.WithKubeClient(b.fakeCluster.KubeClient)
 
 	b.ScheduleManager = schedulemanager.NewScheduleManager()
 	b.ScheduleManager.WithContext(ctx)
