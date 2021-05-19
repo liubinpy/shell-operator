@@ -4,7 +4,7 @@ go 1.12
 
 require (
 	github.com/davecgh/go-spew v1.1.1
-	github.com/flant/kube-client v0.0.2
+	github.com/flant/kube-client v0.0.3
 	github.com/flant/libjq-go v1.6.2-0.20200616114952-907039e8a02a // branch: master
 	github.com/go-chi/chi v4.0.3+incompatible
 	github.com/go-openapi/spec v0.19.3
