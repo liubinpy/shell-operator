@@ -22,7 +22,6 @@ func Test_MainKubeEventsManager_Run(t *testing.T) {
 	// Init() replacement
 
 	kubeClient := klient.NewFake()
-
 	fakeDiscovery, ok := kubeClient.Discovery().(*fakediscovery.FakeDiscovery)
 	if !ok {
 		t.Fatalf("couldn't convert Discovery() to *FakeDiscovery")
@@ -315,7 +314,7 @@ func Test_FakeClient_CatchUpdates(t *testing.T) {
 	}
 	_, _ = dynClient.Resource(podGvr).Namespace("default").Create(context.TODO(), obj, metav1.CreateOptions{}, []string{}...)
 
-	//// Init() replacement
+	// Init() replacement
 	mgr := NewKubeEventsManager()
 	mgr.WithContext(ctx)
 
@@ -351,7 +350,7 @@ func Test_FakeClient_CatchUpdates(t *testing.T) {
 		case ev := <-mgr.Ch():
 			eventCounter = eventCounter + 1
 			fmt.Printf("Got event: %d %#v\n", eventCounter, ev)
-			//t.Logf("Got event: %d %#v\n", eventCounter, ev)
+			// t.Logf("Got event: %d %#v\n", eventCounter, ev)
 
 			if !state.podsCreated {
 				assert.Equal(t, "Synchronization", ev.Type)

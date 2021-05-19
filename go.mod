@@ -4,7 +4,7 @@ go 1.12
 
 require (
 	github.com/davecgh/go-spew v1.1.1
-	github.com/flant/kube-client v0.0.3
+	github.com/flant/kube-client v0.0.4
 	github.com/flant/libjq-go v1.6.2-0.20200616114952-907039e8a02a // branch: master
 	github.com/go-chi/chi v4.0.3+incompatible
 	github.com/go-openapi/spec v0.19.3
@@ -23,10 +23,10 @@ require (
 	gopkg.in/robfig/cron.v2 v2.0.0-20150107220207-be2e0b0deed5
 	gopkg.in/satori/go.uuid.v1 v1.2.0
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776
-	k8s.io/api v0.20.7
-	k8s.io/apiextensions-apiserver v0.20.7
-	k8s.io/apimachinery v0.20.7
-	k8s.io/client-go v0.20.7
+	k8s.io/api v0.19.11
+	k8s.io/apiextensions-apiserver v0.19.11
+	k8s.io/apimachinery v0.19.11
+	k8s.io/client-go v0.19.11
 	k8s.io/klog v1.0.0
 	sigs.k8s.io/kind v0.10.0
 	sigs.k8s.io/yaml v1.2.0
